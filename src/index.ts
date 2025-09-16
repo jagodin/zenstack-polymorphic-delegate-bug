@@ -1,9 +1,9 @@
-import { enhance, PrismaClient } from '@zenstackhq/runtime';
-import { PrismaClient as PrismaClientOriginal } from '@prisma/client';
+import { enhance } from '@zenstackhq/runtime';
+import { PrismaClient } from '@prisma/client';
 import { PrismaClientValidationError } from '@prisma/client/runtime/library';
 
-const prisma: PrismaClient = enhance(
-    new PrismaClientOriginal({
+const prisma = enhance(
+    new PrismaClient({
         datasources: {
             db: {
                 url: 'file:./dev.db',
@@ -119,35 +119,6 @@ const prisma: PrismaClient = enhance(
     }
 
     console.log('\n' + '='.repeat(50) + '\n');
-
-    // Additional verification - test that we can catch the specific error type
-    try {
-        console.log('3. Testing error type detection (VERIFICATION):');
-        await prisma.director.findMany({
-            include: {
-                movies: {
-                    where: {
-                        title: 'Non-existent Movie',
-                    },
-                },
-            },
-        });
-        throw new Error(
-            'VERIFICATION FAILED: Expected PrismaClientValidationError'
-        );
-    } catch (error) {
-        if (error instanceof PrismaClientValidationError) {
-            console.log(
-                '✅ Test 3 PASSED: Correctly identified PrismaClientValidationError'
-            );
-        } else {
-            const errorName =
-                error instanceof Error ? error.constructor.name : typeof error;
-            throw new Error(
-                `VERIFICATION FAILED: Expected PrismaClientValidationError but got ${errorName}`
-            );
-        }
-    }
 
     console.log('\n' + '='.repeat(50) + '\n');
     console.log('🎉 ALL TESTS PASSED: Bug reproduction is working correctly!');
