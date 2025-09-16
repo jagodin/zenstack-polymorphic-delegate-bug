@@ -1,0 +1,41 @@
+{
+  // These tasks will run in order when initializing your CodeSandbox project.
+  "setupTasks": [
+    {
+      "command": "npm install",
+      "name": "Installing Dependencies"
+    },
+    {
+      "command": "npx zenstack generate",
+      "name": "n"
+    },
+    {
+      "command": "npx prisma migrate dev --name init",
+      "name": "n"
+    }
+  ],
+
+  // These tasks can be run from CodeSandbox. Running one will open a log in the app.
+  "tasks": {
+    "test": {
+      "name": "test",
+      "command": "npm run test",
+      "runAtStart": false
+    },
+    "reproduce": {
+      "name": "reproduce",
+      "command": "npm run reproduce",
+      "runAtStart": false
+    },
+    "setup": {
+      "name": "setup",
+      "command": "npm run setup",
+      "runAtStart": false
+    },
+    "n": {
+      "name": "n",
+      "command": "npx tsx src/index.ts",
+      "runAtStart": true
+    }
+  }
+}
